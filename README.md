@@ -66,6 +66,22 @@ and now lvm set succesfully :)
 
 
 ## **NFS Server Installation**
+install packages:
+```bash
+apt install nfs-kernel-server nfs-common -y
+```
+
+edit **/etc/exports** for set config add this line end of file:
+```bash
+/opt/nfs <network subnet between server and clients>(rw,sync,no_subtree_check)
+```
+then apply config and restart service:
+```bash
+exportfs -r
+exportfs -a
+systemctl restart nfs-kernel-server.service
+```
+now NFS Server configured completely
 
 ## **NFS Client Configuration**
 
