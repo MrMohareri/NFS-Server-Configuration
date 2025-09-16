@@ -58,7 +58,7 @@ edit **/etc/fstab** and add this line end of file:
 ```bash
 UUID=<blkid> /opt/nfs ext4 defaults 0 0
 ```
-and then enter thisa command to apply this
+and then enter this command to apply this
 ```bash
 mount -a
 ```
@@ -84,5 +84,26 @@ systemctl restart nfs-kernel-server.service
 now NFS Server configured completely
 
 ## **NFS Client Configuration**
+install packages:
+```bash
+apt install nfs-common -y
+```
+
+make directory  **/opt/nfs** to mount this volume on this, Similar Server
+folder.
+because connection between Server and Client is trust, we set open permission on this folder
+```bash
+chown nobody:nogroup /opt/nfs/
+chmod 777 /opt/nfs/
+```
+for permanent mount nfs server to this client, edit **/etc/fstab** and add this line end of file:
+```bash
+<NFS Server IP>:/opt/nfs /opt/nfs  nfs defaults 0 0
+```
+and then enter this command to apply this
+```bash
+mount -a
+```
+and now nfs client mount to nfs server!
 
 ## **Testing & Verification**
