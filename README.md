@@ -11,7 +11,7 @@ Network Connection with Server and Clients.
 
 ## **LVM Configuration**
 
-I have two 25GB Disk on my Server and ubuntu define it by "sdb" and "sdc":
+### 1. I have two 25GB Disk on my Server and ubuntu define it by "sdb" and "sdc":
 
 ```bash
 root@nfs-srv:~# lsblk
@@ -25,39 +25,38 @@ sdb                    8:16   0   25G  0 disk
 sdc                    8:32   0   25G  0 disk 
 sr0                   11:0    1 1024M  0 rom  
 ```
-First we need to create a physical volum **(PV)**:
+### 2. First we need to create a physical volum **(PV)**:
 ```bash
 pvcreate /dev/sbd /dev/sdc
 ```
-and then create a volum group **(VG)**:
+### 3. and then create a volum group **(VG)**:
 ```bash
 vgcreate nfs-vg /dev/sdb /dev/sdc
 ```
-after this create a Logical volume **(LV)**:
+### 4. after this create a Logical volume **(LV)**:
 ```bash
 lvcreate -n nfs-lv -l 100%FREE nfs-vg
 ```
-set **ext4** filesystem for this volume:
+### 5. set **ext4** filesystem for this volume:
 ```bash
 mkfs.ext4 /dev/nfs-vg/nfs-lv
 ```
-make directory  **/opt/nfs** to mount this volume on this 
-folder.
+### 6.make directory  **/opt/nfs** to mount this volume on this folder.
 because connection between Server and Client is trust, we set open permission on this folder
 ```bash
 chown nobody:nogroup /opt/nfs/
 chmod 777 /opt/nfs/
 ```
 
-finde UUID of this disk for permanent mount on server:
+### 7. finde UUID of this disk for permanent mount on server:
 ```bash
 blkid /dev/nfs-vg/nfs-lv
 ```
-edit **/etc/fstab** and add this line end of file:
+### 8. edit **/etc/fstab** and add this line end of file:
 ```bash
 UUID=<blkid> /opt/nfs ext4 defaults 0 0
 ```
-and then enter this command to apply this
+### 9. and then enter this command to apply this
 ```bash
 mount -a
 ```
@@ -65,7 +64,7 @@ and now lvm set succesfully :)
 
 
 ## **NFS Server Installation**
-install packages:
+### 1. install packages:
 
 Ubuntu:
 ```bash
@@ -73,14 +72,16 @@ apt install nfs-kernel-server nfs-common -y
 ```
 
 Rocky Linux:
+```bash
+dnf install nfs-utils -y
+systemctl enable --now nfs-server
+```
 
-
-
-edit **/etc/exports** for set config add this line end of file:
+### 2. edit **/etc/exports** for set config add this line end of file:
 ```bash
 /opt/nfs <network subnet between server and clients>(rw,sync,no_subtree_check)
 ```
-then apply config and restart service:
+### 3. then apply config and restart service:
 ```bash
 exportfs -r
 exportfs -a
@@ -89,23 +90,27 @@ systemctl restart nfs-kernel-server.service
 now NFS Server configured completely
 
 ## **NFS Client Configuration**
-install packages:
+### 1. install packages:
+Ubuntu:
 ```bash
 apt install nfs-common -y
 ```
-
-make directory  **/opt/nfs** to mount this volume on this, Similar Server
-folder.
+Rocky Linux:
+```bash
+dnf install nfs-utils -y
+systemctl enable --now nfs-server
+```
+### 2. make directory  **/opt/nfs** to mount this volume on this, Similar Server folder.
 because connection between Server and Client is trust, we set open permission on this folder
 ```bash
 chown nobody:nogroup /opt/nfs/
 chmod 777 /opt/nfs/
 ```
-for permanent mount nfs server to this client, edit **/etc/fstab** and add this line end of file:
+### 3. for permanent mount nfs server to this client, edit **/etc/fstab** and add this line end of file:
 ```bash
 <NFS Server IP>:/opt/nfs /opt/nfs  nfs defaults 0 0
 ```
-and then enter this command to apply this
+### 4. and then enter this command to apply this
 ```bash
 mount -a
 ```
