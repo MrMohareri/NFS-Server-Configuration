@@ -112,3 +112,6 @@ mount -a
 and now nfs client mount to nfs server!
 
 ## **Testing & Verification**
+
+Copy a file on /opt/nfs from a client and you can see this from other client and server.
+and you can delete it from a client and you can see this deleted from other client and server. 
