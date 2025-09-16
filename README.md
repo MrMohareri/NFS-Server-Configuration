@@ -1,14 +1,13 @@
-# NFS File Sharing on Ubuntu Server with LVM Storage Management
+# Setup NFS File Sharing on Linux Server with LVM Storage Management
 ## **Introduction**
 
 This Project Describe Deployment of Network File System **(NFS)** Server on Ubuntu Server with Storage Mangament by Logical Volum Manager **(LVM)**.
 
 ## **Prerequisites**
 
-Ubuntu Server 24.04.
+Debian-based or RHEL-based Linux Server.
 Root or sudo Access.
 Network Connection with Server and Clients.
-nfs-kernel-server and nfs-common and lvm2 packages.
 
 ## **LVM Configuration**
 
@@ -67,9 +66,15 @@ and now lvm set succesfully :)
 
 ## **NFS Server Installation**
 install packages:
+
+Ubuntu:
 ```bash
 apt install nfs-kernel-server nfs-common -y
 ```
+
+Rocky Linux:
+
+
 
 edit **/etc/exports** for set config add this line end of file:
 ```bash
