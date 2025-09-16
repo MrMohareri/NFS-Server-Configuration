@@ -6,7 +6,9 @@ This Project Describe Deployment of Network File System **(NFS)** Server on Ubun
 ## **Prerequisites**
 
 Debian-based or RHEL-based Linux Server.
+
 Root or sudo Access.
+
 Network Connection with Server and Clients.
 
 ## **LVM Configuration**
